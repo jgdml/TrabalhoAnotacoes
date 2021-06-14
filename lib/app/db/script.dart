@@ -22,18 +22,12 @@ CREATE TABLE IMAGEM(
 
 
 final insertsTeste = """
-INSERT INTO ANOTACAO(TITULO, TEXTO)
-VALUES ('Titulo 1', 'Descrição da anotação número 1');
+INSERT INTO ANOTACAO(TITULO, TEXTO) VALUES 
+('Titulo 1', 'Descrição da anotação número 1'), 
+('Titulo 2', 'Descição da anotação número 2');
 
-INSERT INTO IMAGEM (ID_ANOTACAO, URL)
-VALUES(1, 'https://media.istockphoto.com/photos/abstract-orange-background-picture-id679762938');
-
-
-
-INSERT INTO ANOTACAO(TITULO, TEXTO)
-VALUES ('Titulo 2', 'Descição da anotação número 2');
-
-INSERT INTO IMAGEM (ID_ANOTACAO, URL)
-VALUES(2, 'https://media.istockphoto.com/photos/abstract-orange-background-picture-id679762938');
+INSERT INTO IMAGEM (ID_ANOTACAO, URL) VALUES
+(1, 'https://media.istockphoto.com/photos/abstract-orange-background-picture-id679762938'),
+(2, 'https://media.istockphoto.com/photos/abstract-orange-background-picture-id679762938');
 """;
 
