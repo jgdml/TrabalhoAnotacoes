@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 
 
-class Edit extends StatefulWidget {
-    const Edit({ Key? key }) : super(key: key);
+class Create extends StatefulWidget {
+    const Create({ Key? key }) : super(key: key);
 
     @override
-    _EditState createState() => _EditState();
+    _CreateState createState() => _CreateState();
 }
 
 
-class _EditState extends State<Edit> {
+class _CreateState extends State<Create> {
 
     final titleController = TextEditingController();
     final textController = TextEditingController();
@@ -55,7 +55,7 @@ class _EditState extends State<Edit> {
                     decoration: InputDecoration(hintText: "Digite o texto"),
                     scrollPadding: EdgeInsets.all(20.0),
                     keyboardType: TextInputType.multiline,
-                    maxLines: 99999,
+                    maxLines: 1000,
                     )
     
                 ),
