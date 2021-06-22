@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 
-
-import 'package:text_editor/app/db/sqlite/connection.dart';
+import 'package:text_editor/app/db/sqlite/dao/dao_anotacao_impl.dart';
+import 'package:text_editor/app/domain/entities/anotacao.dart';
 
 
 class Anotacoes extends StatelessWidget {
@@ -10,10 +9,9 @@ class Anotacoes extends StatelessWidget {
 
     // Funçao que pega e retorna 
     // todos os registros da tabela anotacao
-    Future<List<Map<String, dynamic>>> _getAnotacoes() async{
+    Future<List<Anotacao>> _getAnotacoes() async{
         
-        Database db = await Connection.get();
-        return db.query('ANOTACAO');
+        return await DaoAnotacaoImpl().buscar();
     }
 
 
@@ -36,61 +34,51 @@ class Anotacoes extends StatelessWidget {
             // constroi a tela usando o retorno da funçao
             builder: (context, future){
 
-                // caso existe dados, constroi a tela com eles
-                if (future.hasData){
+                // converte future.data em uma lista de anotacao
+                // e coloca em uma variavel
+                var anotacoes = (future.data! as List<Anotacao>);
 
-                    // converte future.data em uma lista
-                    // e coloca em uma variavel
-                    var anotacoes = (future.data! as List<Map<String, dynamic>>);
+                return Scaffold(
 
-                    return Scaffold(
+                    appBar: AppBar(
+                        title: Text("Anotações"),
+                        actions: [
+                            IconButton(
+                                onPressed: () => Navigator.of(context).pushNamed('settings'), 
+                                icon: Icon(Icons.settings)
+                            )
+                        ]
+                    ),
 
-                        appBar: AppBar(
-                            title: Text("Anotações"),
-                            actions: [
-                                IconButton(
-                                    onPressed: () => Navigator.of(context).pushNamed('settings'), 
-                                    icon: Icon(Icons.settings)
-                                )
-                            ]
-                        ),
+                    body: ListView.builder(
+                        itemCount: anotacoes.length,
+                        itemBuilder: (context, i){
 
-                        body: ListView.builder(
-                            itemCount: anotacoes.length,
-                            itemBuilder: (context, i){
+                            var anotacao = anotacoes[i];
 
-                                var anotacao = anotacoes[i];
+                            return ListTile(
+                                
+                                title: Text(anotacao.titulo),
+                                subtitle: Text(anotacao.dtCriacao),
+                                tileColor: _getCardColor(i),
 
-                                return ListTile(
-                                    
-                                    title: Text(anotacao['TITULO'].toString()),
-                                    subtitle: Text(anotacao['DT_CRIACAO'].toString()),
-                                    tileColor: _getCardColor(i),
+                                trailing: Container(
+                                    child: Icon(Icons.arrow_drop_down_circle_outlined)
+                                ),
+                                onTap: () => Icon(Icons.arrow_upward_outlined),
 
-                                    trailing: Container(
-                                        child: Icon(Icons.arrow_drop_down_circle_outlined)
-                                    ),
-                                    onTap: () => Icon(Icons.arrow_upward_outlined),
+                            );
+                        }
+                    ),
 
-                                );
-                            }
-                        ),
-
-                        floatingActionButton: FloatingActionButton(
-                            onPressed: () => Navigator.of(context).pushNamed('create'), 
-                            child: Icon(Icons.add),
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white
-                        )
-                    );
-                }
-
-                else{
-                    return Scaffold(
-                        body: Text('data: '+future.data.toString()),
-                    );
-                }
-            }  
+                    floatingActionButton: FloatingActionButton(
+                        onPressed: () => Navigator.of(context).pushNamed('create'), 
+                        child: Icon(Icons.add),
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white
+                    )
+                );
+            }
         );
     }
 }

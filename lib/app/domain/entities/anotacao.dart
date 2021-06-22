@@ -3,8 +3,8 @@ class Anotacao{
 
     String titulo;
     String texto;
-    DateTime dtCriacao;
-    DateTime dtModificacao;
+    String dtCriacao;
+    String dtModificacao;
 
     Anotacao(this.id, this.titulo, this.texto, this.dtCriacao, this.dtModificacao);
 }
