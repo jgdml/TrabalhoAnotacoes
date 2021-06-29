@@ -1,5 +1,5 @@
 class Anotacao{
-    int id;
+    int? id;
 
     String titulo;
     String texto;

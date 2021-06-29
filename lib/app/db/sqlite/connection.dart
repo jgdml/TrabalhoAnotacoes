@@ -8,19 +8,17 @@ class Connection{
 
     // variavel do banco
     // definida como late pois nao pode ser null
-    static late Database _db;
+    static Database? _db;
 
     // informacoes do banco
     static String _dbName = 'db_anotacoes';
     static int _dbVersion = 1;
 
-    static bool _dbIsOpen = false;
-
     // retorna a instancia do banco 
     // e cria uma caso nao exista
-    static Future<Database> get() async{
+    static Future<Database?> get() async{
     
-        if (_dbIsOpen == false){
+        if (_db == null){
             _db = await _initDb();
         }
         return _db;
@@ -38,7 +36,6 @@ class Connection{
                 await db.execute(createAnotacao);
                 await db.execute(createImagem);
                 await db.execute(insertsTeste);
-                _dbIsOpen = true;
             }
         );
     }

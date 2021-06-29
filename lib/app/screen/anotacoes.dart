@@ -34,9 +34,12 @@ class Anotacoes extends StatelessWidget {
             // constroi a tela usando o retorno da funçao
             builder: (context, future){
 
+                var anotacoes = <Anotacao>[];
+                // caso existir dados 
                 // converte future.data em uma lista de anotacao
-                // e coloca em uma variavel
-                var anotacoes = (future.data! as List<Anotacao>);
+                if (future.hasData){
+                    anotacoes = (future.data! as List<Anotacao>);
+                }
 
                 return Scaffold(
 

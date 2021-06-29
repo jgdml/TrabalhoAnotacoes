@@ -1,5 +1,5 @@
 class Imagem{
-    int id;
+    int? id;
     int idAnotacao;
 
     String url;

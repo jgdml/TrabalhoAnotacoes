@@ -10,9 +10,9 @@ class DaoImagemImpl implements DaoImagem{
 
     @override
     Future<List<Imagem>> buscar() async {
-        Database db = await Connection.get();
+        Database? db = await Connection.get();
 
-        List<Map<String, dynamic>> res = await db.query('ANOTACAO');
+        List<Map<String, dynamic>> res = await db!.query('ANOTACAO');
 
         List<Imagem> imgs = List.generate(res.length, (index) {
             var img = res[index];
@@ -30,24 +30,24 @@ class DaoImagemImpl implements DaoImagem{
 
     @override
     remover(int id) async {
-        Database db = await Connection.get();
+        Database? db = await Connection.get();
         var sql = 'DELETE FROM IMAGEM WHERE ID == ?';
 
-        db.rawDelete(sql);
+        db!.rawDelete(sql);
     }
 
 
     @override
     salvar(Imagem img) async {
-        Database db = await Connection.get();
+        Database? db = await Connection.get();
 
-        if (img.id == -1){
+        if (img.id == null){
             var sql = 'INSERT INTO IMAGEM(ID_ANOTACAO, URL) VALUES(?, ?)';
-            db.rawInsert(sql, [img.idAnotacao, img.url]);
+            db!.rawInsert(sql, [img.idAnotacao, img.url]);
         }
         else{
             var sql = 'UPDATE IMAGEM SET URL=?';
-            db.rawUpdate(sql, [img.url]);
+            db!.rawUpdate(sql, [img.url]);
         }
     }
 
