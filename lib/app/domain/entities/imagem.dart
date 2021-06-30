@@ -1,8 +1,8 @@
 class Imagem{
     int? id;
-    int idAnotacao;
+    int? idAnotacao;
 
-    String url;
+    String? url;
 
     Imagem(this.id, this.idAnotacao, this.url);
 }

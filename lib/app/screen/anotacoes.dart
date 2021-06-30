@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_editor/app/db/sqlite/dao/dao_anotacao_impl.dart';
+
 import 'package:text_editor/app/domain/entities/anotacao.dart';
+import 'package:text_editor/app/domain/services/anotacao_service.dart';
 
 
 class Anotacoes extends StatelessWidget {
@@ -10,8 +11,9 @@ class Anotacoes extends StatelessWidget {
     // Funçao que pega e retorna 
     // todos os registros da tabela anotacao
     Future<List<Anotacao>> _getAnotacoes() async{
+        var anoService = AnotacaoService();
         
-        return await DaoAnotacaoImpl().buscar();
+        return await anoService.buscar();
     }
 
 
@@ -61,8 +63,8 @@ class Anotacoes extends StatelessWidget {
 
                             return ListTile(
                                 
-                                title: Text(anotacao.titulo),
-                                subtitle: Text(anotacao.dtCriacao),
+                                title: Text(anotacao.titulo!),
+                                subtitle: Text(anotacao.dtCriacao!),
                                 tileColor: _getCardColor(i),
 
                                 trailing: Container(
