@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 
 import 'package:text_editor/app/domain/entities/anotacao.dart';
-import 'package:text_editor/app/domain/services/anotacao_service.dart';
+import 'package:text_editor/app/screen/anotacoes_back.dart';
 
 
 class Anotacoes extends StatelessWidget {
-    const Anotacoes({ Key? key }) : super(key: key);
-
-    // Funçao que pega e retorna 
-    // todos os registros da tabela anotacao
-    Future<List<Anotacao>> _getAnotacoes() async{
-        var anoService = AnotacaoService();
-        
-        return await anoService.buscar();
-    }
+    
+    final _back = AnotacoesBack();
 
 
     Color _getCardColor(int index){
@@ -28,62 +22,66 @@ class Anotacoes extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         
-        return FutureBuilder(
-            // espera a funçao asincrona terminar
-            // e pega seu retorno
-            future: _getAnotacoes(),
+        return Scaffold(
+            appBar: AppBar(
+                title: Text("Anotações"),
+                actions: [
+                    IconButton(
+                        onPressed: () => Navigator.of(context).pushNamed('settings'), 
+                        icon: Icon(Icons.settings)
+                    )
+                ]
+            ),
 
-            // constroi a tela usando o retorno da funçao
-            builder: (context, future){
+            floatingActionButton: FloatingActionButton(
+                onPressed: () => Navigator.of(context).pushNamed('create'), 
+                child: Icon(Icons.add),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white
+            ),
 
-                var anotacoes = <Anotacao>[];
-                // caso existir dados 
-                // converte future.data em uma lista de anotacao
-                if (future.hasData){
-                    anotacoes = (future.data! as List<Anotacao>);
-                }
+            body: Observer(builder: (context){
 
-                return Scaffold(
+                return FutureBuilder(
+                    // espera a funçao asincrona terminar
+                    // e pega seu retorno
+                    future: _back.anotacoes,
 
-                    appBar: AppBar(
-                        title: Text("Anotações"),
-                        actions: [
-                            IconButton(
-                                onPressed: () => Navigator.of(context).pushNamed('settings'), 
-                                icon: Icon(Icons.settings)
-                            )
-                        ]
-                    ),
+                    // constroi a tela usando o retorno da funçao
+                    builder: (context, future){
 
-                    body: ListView.builder(
-                        itemCount: anotacoes.length,
-                        itemBuilder: (context, i){
+                        if (!future.hasData){
+                            return CircularProgressIndicator();
+                        }
+                        else{
+                            // converte future.data em uma lista de anotacao
+                            var anotacoes = <Anotacao>[];
+                            anotacoes = (future.data! as List<Anotacao>);
 
-                            var anotacao = anotacoes[i];
+                            return ListView.builder(
+                                itemCount: anotacoes.length,
 
-                            return ListTile(
-                                
-                                title: Text(anotacao.titulo!),
-                                subtitle: Text(anotacao.dtCriacao!),
-                                tileColor: _getCardColor(i),
+                                itemBuilder: (context, i){
+                                    var anotacao = anotacoes[i];
 
-                                trailing: Container(
-                                    child: Icon(Icons.arrow_drop_down_circle_outlined)
-                                ),
-                                onTap: () => Icon(Icons.arrow_upward_outlined),
+                                    return ListTile(
+                                        
+                                        title: Text(anotacao.titulo!),
+                                        subtitle: Text(anotacao.dtCriacao!),
+                                        tileColor: _getCardColor(i),
 
+                                        trailing: Container(
+                                            child: Icon(Icons.arrow_drop_down_circle_outlined)
+                                        ),
+                                        onTap: () => Icon(Icons.arrow_upward_outlined),
+
+                                    );
+                                }
                             );
                         }
-                    ),
-
-                    floatingActionButton: FloatingActionButton(
-                        onPressed: () => Navigator.of(context).pushNamed('create'), 
-                        child: Icon(Icons.add),
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white
-                    )
+                    }
                 );
-            }
+            })
         );
     }
 }
