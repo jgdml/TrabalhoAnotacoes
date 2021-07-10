@@ -14,6 +14,7 @@ abstract class _AnotacoesBack with Store{
 
     var _service = GetIt.I.get<AnotacaoService>();
 
+    @observable
     Future<List<Anotacao>>? anotacoes;
 
 

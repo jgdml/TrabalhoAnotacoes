@@ -35,7 +35,7 @@ class DaoAnotacaoImpl implements DaoAnotacao{
         Database? db = await Connection.get();
         var sql = 'DELETE FROM ANOTACAO WHERE ID == ?';
 
-        db!.rawDelete(sql);
+        db!.rawDelete(sql, [id]);
     }
 
 

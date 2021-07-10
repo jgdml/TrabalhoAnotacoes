@@ -33,7 +33,7 @@ class DaoImagemImpl implements DaoImagem{
         Database? db = await Connection.get();
         var sql = 'DELETE FROM IMAGEM WHERE ID == ?';
 
-        db!.rawDelete(sql);
+        db!.rawDelete(sql, [id]);
     }
 
 

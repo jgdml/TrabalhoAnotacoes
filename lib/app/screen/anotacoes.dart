@@ -11,14 +11,66 @@ class Anotacoes extends StatelessWidget {
     
     final _back = AnotacoesBack();
 
+    Widget mostrarImagens(var urls){
+        return Container(
+            height: 100,
+            child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: urls.length,
+                itemBuilder: (context, index){
+                    return Image(
+                        image: NetworkImage(urls[index]),
+                    );
+                }
+            )
 
-    Color _getCardColor(int index){
-        if (index % 2 == 0){
-            return Colors.white;
-        }
-        return Colors.blue.shade50;
+        );
     }
 
+    Widget mostrarBotoes(BuildContext context, Anotacao anotacao){
+        return Container(
+            height: 100,
+            alignment: Alignment.topRight,
+            child: ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                    IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () => _back.irParaForm(context, anotacao: anotacao)
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: (){
+                            showDialog(
+                                context: context, 
+                                builder: (context) => AlertDialog(
+                                    title: Text("Excluir?"),
+                                    content: Text("Deseja excluir a anotação "+anotacao.titulo!+"?"),
+                                    actions: [
+                                        TextButton(
+                                            onPressed: () => Navigator.of(context).pop(), 
+                                            child: Text("NÃO")
+                                        ),
+                                        TextButton(
+                                            onPressed: (){
+                                                _back.excluir(anotacao.id!);
+                                                Navigator.of(context).pop();
+                                            },
+                                            child: Text("SIM")
+                                        )
+                                    ],
+
+                                )
+                            );
+                        }
+                    ),
+                ]
+            )
+        );
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -35,7 +87,7 @@ class Anotacoes extends StatelessWidget {
             ),
 
             floatingActionButton: FloatingActionButton(
-                onPressed: () => Navigator.of(context).pushNamed('create'), 
+                onPressed: () => _back.irParaForm(context), 
                 child: Icon(Icons.add),
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white
@@ -76,34 +128,9 @@ class Anotacoes extends StatelessWidget {
                                                 Text(anotacao.texto!),
                                                 SizedBox(height: 20),
                                                 
-                                                Container(
-                                                    height: 100,
-                                                    child:ListView.builder(
-                                                        shrinkWrap: true,
-                                                        scrollDirection: Axis.horizontal,
-                                                        itemCount: 2,
-                                                        itemBuilder: (context, index){
-                                                            return Image(
-                                                                image: NetworkImage(teste[index]),
-                                                            );
-                                                        }
-                                                    )
+                                                mostrarImagens(teste),
 
-                                                ),
-
-                                                Container(
-                                                    height: 100,
-                                                    alignment: Alignment.topRight,
-                                                    child: ListView(
-                                                        shrinkWrap: true,
-                                                        physics: NeverScrollableScrollPhysics(),
-                                                        scrollDirection: Axis.horizontal,
-                                                        children: [
-                                                            IconButton(onPressed: () => null, icon: Icon(Icons.edit)),
-                                                            IconButton(onPressed: () => null, icon: Icon(Icons.delete)),
-                                                        ]
-                                                    )
-                                                )
+                                                mostrarBotoes(context, anotacao)
                                             ]
                                         )
                                     );
