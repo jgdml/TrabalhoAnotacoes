@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:path/path.dart';
 
 
 import 'package:text_editor/app/domain/entities/anotacao.dart';
@@ -57,6 +58,7 @@ class Anotacoes extends StatelessWidget {
                             // converte future.data em uma lista de anotacao
                             var anotacoes = <Anotacao>[];
                             anotacoes = (future.data! as List<Anotacao>);
+                            var teste = ["https://media.istockphoto.com/photos/abstract-orange-background-picture-id679762938", "https://media.istockphoto.com/photos/abstract-orange-background-picture-id679762938"];
 
                             return ListView.builder(
                                 itemCount: anotacoes.length,
@@ -64,17 +66,46 @@ class Anotacoes extends StatelessWidget {
                                 itemBuilder: (context, i){
                                     var anotacao = anotacoes[i];
 
-                                    return ListTile(
-                                        
-                                        title: Text(anotacao.titulo!),
-                                        subtitle: Text(anotacao.dtCriacao!),
-                                        tileColor: _getCardColor(i),
+                                    return Card(
+                                        elevation: 2,
+                                        child: ExpansionTile(
+                                            title: Text(anotacao.titulo!),
+                                            subtitle: Text(anotacao.dtModificacao!),
 
-                                        trailing: Container(
-                                            child: Icon(Icons.arrow_drop_down_circle_outlined)
-                                        ),
-                                        onTap: () => Icon(Icons.arrow_upward_outlined),
+                                            children: [
+                                                Text(anotacao.texto!),
+                                                SizedBox(height: 20),
+                                                
+                                                Container(
+                                                    height: 100,
+                                                    child:ListView.builder(
+                                                        shrinkWrap: true,
+                                                        scrollDirection: Axis.horizontal,
+                                                        itemCount: 2,
+                                                        itemBuilder: (context, index){
+                                                            return Image(
+                                                                image: NetworkImage(teste[index]),
+                                                            );
+                                                        }
+                                                    )
 
+                                                ),
+
+                                                Container(
+                                                    height: 100,
+                                                    alignment: Alignment.topRight,
+                                                    child: ListView(
+                                                        shrinkWrap: true,
+                                                        physics: NeverScrollableScrollPhysics(),
+                                                        scrollDirection: Axis.horizontal,
+                                                        children: [
+                                                            IconButton(onPressed: () => null, icon: Icon(Icons.edit)),
+                                                            IconButton(onPressed: () => null, icon: Icon(Icons.delete)),
+                                                        ]
+                                                    )
+                                                )
+                                            ]
+                                        )
                                     );
                                 }
                             );
