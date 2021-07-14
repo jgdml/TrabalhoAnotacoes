@@ -30,6 +30,10 @@ class AnotacaoService{
             throw new DomainException("Título não pode ser vazio");
         }
 
+        else if (anotacao.texto!.length > 1000){
+            throw new DomainException("Texto deve ser menor que 1000 caracteres");
+        }
+
         // precisa verificar se existe pelo menos um texto
         // ou uma imagem na anotacao
         // else if (anotacao.texto == null && ){
