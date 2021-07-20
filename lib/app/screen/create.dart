@@ -11,16 +11,22 @@ class Create extends StatefulWidget {
 
 
 class _CreateState extends State<Create> {
+    final _formState = GlobalKey<FormState>();
+
 
     Widget titleField(CreateBack back){
         return TextFormField(
+            validator: back.validarTitulo,
+            onSaved: (val) => back.anotacao?.titulo = val,
+
             initialValue: back.anotacao?.titulo ?? '',
             autofocus: true,
-            style: TextStyle(fontSize: 18, color: Colors.white),
+            maxLength: 40,
 
+            style: TextStyle(fontSize: 18),
             decoration: InputDecoration(
-                hintText: "Título da anotação",
-                hintStyle: TextStyle(color: Colors.grey.shade400)
+                labelText: "Título",
+                hintText: "Anotação 1",
             ),
         );
     }
@@ -28,36 +34,27 @@ class _CreateState extends State<Create> {
 
     Widget textField(CreateBack back){
         return TextFormField(
+            validator: back.validarTexto,
+            onSaved: (val) => back.anotacao?.texto = val,
             initialValue: back.anotacao?.texto ?? '',
-            decoration: InputDecoration(
-                labelText: "Texto:"
-            ),
+
             scrollPadding: EdgeInsets.all(20.0),
             keyboardType: TextInputType.multiline,
-            minLines: 1,
-            maxLines: 15,
+            minLines: 3,
+            maxLines: 12,
             maxLength: 1000,
+
+            style: TextStyle(fontSize: 18),
+            decoration: InputDecoration(
+                labelText: "Texto",
+                hintText: "Texto da anotação 1"
+            ),
         );
     }
 
-
-    Widget imageField(){
-        return Column(
-            children: [
-                Container(
-                    height: 100,
-                    child: ListView(
-                        
-                    )
-                ),
-                
-                ElevatedButton.icon(
-                    onPressed: () => null, 
-                    icon: Row(children: [Icon(Icons.add), Icon(Icons.image)],),
-                    label: Text('Adicionar foto'),
-                    
-                )
-            ],
+    showSnack(context, String text){
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Anotação salva"))
         );
     }
 
@@ -69,14 +66,19 @@ class _CreateState extends State<Create> {
         return Scaffold(
 
             appBar: AppBar(
-                title: titleField(_back),
+                title: Text("Criar Anotação"),
                 actions: [
                     IconButton(
                         onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Anotação salva"))
-                            );
-                            Navigator.of(context).pop();
+                            _formState.currentState!.validate();
+                            _formState.currentState!.save();
+
+                            if (_back.isValido){
+                                _back.salvar();
+                                showSnack(context, "Anotação salva");
+                                Navigator.of(context).pop();
+                            }
+
                         }, 
                         icon: Icon(Icons.save)
                     )
@@ -86,12 +88,14 @@ class _CreateState extends State<Create> {
 
 
             body: Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(20),
                 child: Form(
+                    key: _formState,
                     child: Column(
                         children: [
-                            textField(_back),
-                            imageField()
+                            titleField(_back),
+                            SizedBox(height: 15),
+                            textField(_back)
                         ],
                     )
                 )

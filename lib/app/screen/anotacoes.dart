@@ -70,9 +70,7 @@ class Anotacoes extends StatelessWidget {
 
             floatingActionButton: FloatingActionButton(
                 onPressed: () => _back.irParaForm(context), 
-                child: Icon(Icons.add),
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white
+                child: Icon(Icons.add)
             ),
 
             body: Observer(builder: (context){
@@ -106,7 +104,7 @@ class Anotacoes extends StatelessWidget {
                                             subtitle: Text(anotacao.dtModificacao!),
 
                                             children: [
-                                                Text(anotacao.texto!),
+                                                Text(anotacao.texto!, style: TextStyle(fontSize: 18)),
                                                 mostrarBotoes(context, anotacao)
                                             ]
                                         )

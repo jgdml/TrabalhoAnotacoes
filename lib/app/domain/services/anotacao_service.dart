@@ -9,32 +9,31 @@ class AnotacaoService{
 
 
     salvar(Anotacao anotacao){
-        validarAnotacao(anotacao);
+        validarTitulo(anotacao.titulo);
+        validarTexto(anotacao.texto);
         _dao.salvar(anotacao);
     }
 
-    // precisa remover as imagens da anotacao tambem
     remover(int id){
         return _dao.remover(id);
     }
 
-    // precisa retornar a imagem relacionada tambem
+
     Future<List<Anotacao>> buscar(){
         return _dao.buscar();
     }
 
 
-    validarAnotacao(Anotacao anotacao){
-        if (anotacao.titulo == ""){
+    validarTitulo(String? titulo){
+        if (titulo == null || titulo == ""){
+            print("|||||||Titulo na funçao de validar: "+titulo.toString());
             throw new DomainException("Título não pode ser vazio");
         }
+    }
 
-        else if (anotacao.texto!.length > 1000){
+    validarTexto(String? texto){
+        if (texto!.length > 1000){
             throw new DomainException("Texto deve ser menor que 1000 caracteres");
-        }
-
-        else if (anotacao.texto == null){
-            throw new DomainException("Título não pode ser nulo");
         }
     }
 }

@@ -18,11 +18,10 @@ class DaoAnotacaoImpl implements DaoAnotacao{
             var anotacao = res[index];
 
             return Anotacao(
-                anotacao['ID'], 
-                anotacao['TITULO'], 
-                anotacao['TEXTO'], 
-                anotacao['DT_CRIACAO'], 
-                anotacao['DT_MODIFICACAO']
+                id: anotacao['ID'], 
+                titulo: anotacao['TITULO'], 
+                texto: anotacao['TEXTO'], 
+                dtModificacao: anotacao['DT_MODIFICACAO']
             );
         });
 
