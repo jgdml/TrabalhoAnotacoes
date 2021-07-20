@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:path/path.dart';
 
 
 import 'package:text_editor/app/domain/entities/anotacao.dart';
@@ -10,23 +9,6 @@ import 'package:text_editor/app/screen/anotacoes_back.dart';
 class Anotacoes extends StatelessWidget {
     
     final _back = AnotacoesBack();
-
-    Widget mostrarImagens(var urls){
-        return Container(
-            height: 100,
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: urls.length,
-                itemBuilder: (context, index){
-                    return Image(
-                        image: NetworkImage(urls[index]),
-                    );
-                }
-            )
-
-        );
-    }
 
     Widget mostrarBotoes(BuildContext context, Anotacao anotacao){
         return Container(
@@ -110,7 +92,6 @@ class Anotacoes extends StatelessWidget {
                             // converte future.data em uma lista de anotacao
                             var anotacoes = <Anotacao>[];
                             anotacoes = (future.data! as List<Anotacao>);
-                            var teste = ["https://media.istockphoto.com/photos/abstract-orange-background-picture-id679762938", "https://media.istockphoto.com/photos/abstract-orange-background-picture-id679762938"];
 
                             return ListView.builder(
                                 itemCount: anotacoes.length,
@@ -126,10 +107,6 @@ class Anotacoes extends StatelessWidget {
 
                                             children: [
                                                 Text(anotacao.texto!),
-                                                SizedBox(height: 20),
-                                                
-                                                mostrarImagens(teste),
-
                                                 mostrarBotoes(context, anotacao)
                                             ]
                                         )

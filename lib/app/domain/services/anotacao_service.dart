@@ -25,7 +25,6 @@ class AnotacaoService{
 
 
     validarAnotacao(Anotacao anotacao){
-        // titulo nao pode ser vazio
         if (anotacao.titulo == ""){
             throw new DomainException("Título não pode ser vazio");
         }
@@ -34,10 +33,8 @@ class AnotacaoService{
             throw new DomainException("Texto deve ser menor que 1000 caracteres");
         }
 
-        // precisa verificar se existe pelo menos um texto
-        // ou uma imagem na anotacao
-        // else if (anotacao.texto == null && ){
-
-        // }
+        else if (anotacao.texto == null){
+            throw new DomainException("Título não pode ser nulo");
+        }
     }
 }

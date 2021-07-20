@@ -34,7 +34,6 @@ class Connection{
             version: _dbVersion, 
             onCreate: (db, ver) async{
                 await db.execute(createAnotacao);
-                await db.execute(createImagem);
                 await db.execute(insertsTeste);
             }
         );
