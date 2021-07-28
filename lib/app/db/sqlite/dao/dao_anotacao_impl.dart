@@ -47,8 +47,8 @@ class DaoAnotacaoImpl implements DaoAnotacao{
             db!.rawInsert(sql, [anotacao.titulo, anotacao.texto]);
         }
         else{
-            var sql = 'UPDATE ANOTACAO SET TITULO=?, TEXTO=?, SET DT_MODIFICACAO=CURRENT_TIMESTAMP';
-            db!.rawUpdate(sql, [anotacao.titulo, anotacao.texto]);
+            var sql = 'UPDATE ANOTACAO SET TITULO=?, TEXTO=?, DT_MODIFICACAO=CURRENT_TIMESTAMP WHERE ID = ?';
+            db!.rawUpdate(sql, [anotacao.titulo, anotacao.texto, anotacao.id]);
         }
     }
 }

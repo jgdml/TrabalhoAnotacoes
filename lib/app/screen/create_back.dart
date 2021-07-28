@@ -1,15 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
 import 'package:text_editor/app/domain/entities/anotacao.dart';
 import 'package:text_editor/app/domain/services/anotacao_service.dart';
 
-part 'create_back.g.dart';
 
-
-class CreateBack = _CreateBack with _$CreateBack;
-
-abstract class _CreateBack with Store{
+class CreateBack {
     Anotacao? anotacao;
 
     var _svc = GetIt.I.get<AnotacaoService>();
@@ -18,7 +13,7 @@ abstract class _CreateBack with Store{
     bool _textoValido = false;
 
 
-    _CreateBack(BuildContext context){
+    CreateBack(BuildContext context){
         var parametro = ModalRoute.of(context)!.settings.arguments;
         
 
@@ -29,8 +24,8 @@ abstract class _CreateBack with Store{
             anotacao = Anotacao();
         }
     }
+    
 
-    @action
     salvar() async {
         _svc.salvar(anotacao!);
     }

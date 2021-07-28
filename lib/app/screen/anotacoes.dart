@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 
 
 import 'package:text_editor/app/domain/entities/anotacao.dart';
@@ -9,6 +10,19 @@ import 'package:text_editor/app/screen/anotacoes_back.dart';
 class Anotacoes extends StatelessWidget {
     
     final _back = AnotacoesBack();
+
+    String formatarData(String data){
+        var formatador = DateFormat('H:mm - dd/MM/yyyy');
+
+        var dt = DateTime.parse(data);
+    
+        var brOffset = 3;
+        dt = dt.subtract(Duration(hours: brOffset));
+
+        data = formatador.format(dt);
+
+        return data;
+    }
 
     Widget mostrarBotoes(BuildContext context, Anotacao anotacao){
         return Container(
@@ -90,18 +104,21 @@ class Anotacoes extends StatelessWidget {
                             // converte future.data em uma lista de anotacao
                             var anotacoes = <Anotacao>[];
                             anotacoes = (future.data! as List<Anotacao>);
+                            
 
                             return ListView.builder(
                                 itemCount: anotacoes.length,
 
                                 itemBuilder: (context, i){
                                     var anotacao = anotacoes[i];
+                                    
+                                    
 
                                     return Card(
                                         elevation: 2,
                                         child: ExpansionTile(
                                             title: Text(anotacao.titulo!),
-                                            subtitle: Text(anotacao.dtModificacao!),
+                                            subtitle: Text(formatarData(anotacao.dtModificacao!)),
 
                                             children: [
                                                 Text(anotacao.texto!, style: TextStyle(fontSize: 18)),
