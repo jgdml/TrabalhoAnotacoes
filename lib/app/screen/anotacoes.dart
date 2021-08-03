@@ -24,6 +24,28 @@ class Anotacoes extends StatelessWidget {
         return data;
     }
 
+    tryEmailLaunch(BuildContext context) async{
+        var res = await _back.launchEmail();
+
+        if (res == false){
+            showDialog(
+                context: context, 
+                builder: (BuildContext context){
+                    return AlertDialog(
+                        title: Text("Aviso"),
+                        content: Text("Não foi encontrado um aplicativo compatível."),
+                        actions: [
+                            TextButton(
+                                onPressed: Navigator.of(context).pop, 
+                                child: Text("Ok"))
+                        ],
+                        
+                    );
+                }
+            );
+        }
+    }
+
     Widget mostrarBotoes(BuildContext context, Anotacao anotacao){
         return Container(
             height: 100,
@@ -76,8 +98,8 @@ class Anotacoes extends StatelessWidget {
                 title: Text("Anotações"),
                 actions: [
                     IconButton(
-                        onPressed: () => Navigator.of(context).pushNamed('settings'), 
-                        icon: Icon(Icons.settings)
+                        onPressed: () => tryEmailLaunch(context), 
+                        icon: Icon(Icons.support_agent)
                     )
                 ]
             ),
