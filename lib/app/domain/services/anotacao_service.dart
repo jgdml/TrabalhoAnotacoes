@@ -14,7 +14,7 @@ class AnotacaoService{
         _dao.salvar(anotacao);
     }
 
-    remover(int id){
+    remover(dynamic id){
         return _dao.remover(id);
     }
 

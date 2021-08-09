@@ -4,7 +4,7 @@ abstract class DaoAnotacao{
 
     salvar(Anotacao anotacao);
 
-    remover(int id);
+    remover(dynamic id);
 
     Future<List<Anotacao>> buscar();
 }

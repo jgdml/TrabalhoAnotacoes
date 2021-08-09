@@ -43,7 +43,7 @@ abstract class _AnotacoesBack with Store{
 
     }
 
-    excluir(int id){
+    excluir(dynamic id){
         _service.remover(id);
         atualizarLista();
     }

@@ -30,7 +30,7 @@ class DaoAnotacaoImpl implements DaoAnotacao{
 
 
     @override
-    remover(int id) async{
+    remover(dynamic id) async{
         Database? db = await Connection.get();
         var sql = 'DELETE FROM ANOTACAO WHERE ID == ?';
 

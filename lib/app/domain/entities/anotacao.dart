@@ -1,5 +1,5 @@
 class Anotacao{
-    int? id;
+    dynamic id;
 
     String? titulo;
     String? texto;
