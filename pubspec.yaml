@@ -29,6 +29,8 @@ dependencies:
   mobx: 
   flutter_mobx:
   url_launcher:
+  cloud_firestore:
+  firebase_core:
 
   intl: 
 
