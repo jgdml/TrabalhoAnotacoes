@@ -27,9 +27,9 @@ abstract class _AnotacoesBack with Store{
         anotacoes = _service.buscar();
     }
 
-    irParaForm(BuildContext context, {Anotacao? anotacao}){
-        Navigator.of(context).pushNamed('create', arguments: anotacao)
-        .then(atualizarLista());
+    irParaForm(BuildContext context, {Anotacao? anotacao}) async {
+        await Navigator.of(context).pushNamed('create', arguments: anotacao);
+        atualizarLista();
     }
 
     Future<bool> launchEmail() async{
