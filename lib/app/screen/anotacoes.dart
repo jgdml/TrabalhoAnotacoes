@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 
 
 import 'package:text_editor/app/domain/entities/anotacao.dart';
@@ -11,18 +10,6 @@ class Anotacoes extends StatelessWidget {
     
     final _back = AnotacoesBack();
 
-    String formatarData(String data){
-        var formatador = DateFormat('H:mm - dd/MM/yyyy');
-
-        var dt = DateTime.parse(data);
-    
-        var brOffset = 3;
-        dt = dt.subtract(Duration(hours: brOffset));
-
-        data = formatador.format(dt);
-
-        return data;
-    }
 
     tryEmailLaunch(BuildContext context) async{
         var res = await _back.launchEmail();
@@ -36,7 +23,7 @@ class Anotacoes extends StatelessWidget {
                         content: Text("Não foi encontrado um aplicativo compatível."),
                         actions: [
                             TextButton(
-                                onPressed: Navigator.of(context).pop, 
+                                onPressed: () => Navigator.of(context).pop(), 
                                 child: Text("Ok"))
                         ],
                         
@@ -90,6 +77,35 @@ class Anotacoes extends StatelessWidget {
         );
     }
 
+    Widget telaVazia(){
+        return Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Icon(
+                        Icons.note,
+                        color: Colors.grey,
+                        size: 40
+                    ),
+                    Text(
+                        'Nenhuma anotação encontrada.\nAperte o botão para adicionar uma nova.', 
+                        style: TextStyle(color: Colors.grey, fontSize: 18),
+                        textAlign: TextAlign.center
+                    )
+                ]
+            )
+        );
+    }
+
+
+    Widget addButton(context){
+        return FloatingActionButton(
+            onPressed: () => _back.irParaForm(context), 
+            child: Icon(Icons.note_add)
+        );
+    }
+
+
     @override
     Widget build(BuildContext context) {
         
@@ -104,10 +120,7 @@ class Anotacoes extends StatelessWidget {
                 ]
             ),
 
-            floatingActionButton: FloatingActionButton(
-                onPressed: () => _back.irParaForm(context), 
-                child: Icon(Icons.add)
-            ),
+            floatingActionButton: addButton(context),
 
             body: Observer(builder: (context){
 
@@ -120,27 +133,29 @@ class Anotacoes extends StatelessWidget {
                     builder: (context, future){
 
                         if (!future.hasData){
-                            return CircularProgressIndicator();
+                            return telaVazia();
+                        }
+
+                        // converte future.data em uma lista de anotacao
+                        var anotacoes = <Anotacao>[];
+                        anotacoes = (future.data as List<Anotacao>);
+
+                        if (anotacoes.length == 0){
+                            return telaVazia();
                         }
                         else{
-                            // converte future.data em uma lista de anotacao
-                            var anotacoes = <Anotacao>[];
-                            anotacoes = (future.data! as List<Anotacao>);
-                            
-
                             return ListView.builder(
                                 itemCount: anotacoes.length,
 
                                 itemBuilder: (context, i){
                                     var anotacao = anotacoes[i];
-                                    
-                                    
 
                                     return Card(
                                         elevation: 2,
                                         child: ExpansionTile(
                                             title: Text(anotacao.titulo!),
-                                            subtitle: Text(formatarData(anotacao.dtModificacao!)),
+                                            subtitle: Text(_back.formatarData(anotacao.dtModificacao!)),
+                                            leading: Icon(Icons.note),
 
                                             children: [
                                                 Text(anotacao.texto!, style: TextStyle(fontSize: 18)),

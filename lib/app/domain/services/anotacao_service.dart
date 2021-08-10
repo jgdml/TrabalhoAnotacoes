@@ -26,7 +26,6 @@ class AnotacaoService{
 
     validarTitulo(String? titulo){
         if (titulo == null || titulo == ""){
-            print("|||||||Titulo na funçao de validar: "+titulo.toString());
             throw new DomainException("Título não pode ser vazio");
         }
     }

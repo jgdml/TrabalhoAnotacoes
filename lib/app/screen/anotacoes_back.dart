@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:text_editor/app/domain/entities/anotacao.dart';
@@ -31,6 +33,21 @@ abstract class _AnotacoesBack with Store{
         await Navigator.of(context).pushNamed('create', arguments: anotacao);
         atualizarLista();
     }
+    
+    
+    String formatarData(Timestamp timestamp){
+        var formatador = DateFormat('H:mm - dd/MM/yyyy');
+
+        var dt = DateTime.parse(timestamp.toDate().toString());
+    
+        var brOffset = 3;
+        dt = dt.subtract(Duration(hours: brOffset));
+
+        var data = formatador.format(dt);
+
+        return data;
+    }
+
 
     Future<bool> launchEmail() async{
         var email = "mailto:jgdml2801@gmail.com?subject=Suporte do aplicativo Anotações";
