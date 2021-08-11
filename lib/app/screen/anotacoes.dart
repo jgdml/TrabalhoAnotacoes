@@ -131,40 +131,43 @@ class Anotacoes extends StatelessWidget {
 
                     // constroi a tela usando o retorno da funçao
                     builder: (context, future){
-
-                        if (!future.hasData){
-                            return telaVazia();
-                        }
-
-                        // converte future.data em uma lista de anotacao
-                        var anotacoes = <Anotacao>[];
-                        anotacoes = (future.data as List<Anotacao>);
-
-                        if (anotacoes.length == 0){
-                            return telaVazia();
+                        if (future.connectionState != ConnectionState.done){
+                            return Center(child: CircularProgressIndicator());
                         }
                         else{
-                            return ListView.builder(
-                                itemCount: anotacoes.length,
+                            var anotacoes = <Anotacao>[];
 
-                                itemBuilder: (context, i){
-                                    var anotacao = anotacoes[i];
+                            if (future.hasData){
+                                // converte future.data em uma lista de anotacao
+                                anotacoes = (future.data as List<Anotacao>);    
+                            }
+                            
+                            if (anotacoes.length == 0){
+                                return telaVazia();
+                            }
+                            else{
+                                return ListView.builder(
+                                    itemCount: anotacoes.length,
 
-                                    return Card(
-                                        elevation: 2,
-                                        child: ExpansionTile(
-                                            title: Text(anotacao.titulo!),
-                                            subtitle: Text(_back.formatarData(anotacao.dtModificacao!)),
-                                            leading: Icon(Icons.note),
+                                    itemBuilder: (context, i){
+                                        var anotacao = anotacoes[i];
 
-                                            children: [
-                                                Text(anotacao.texto!, style: TextStyle(fontSize: 18)),
-                                                mostrarBotoes(context, anotacao)
-                                            ]
-                                        )
-                                    );
-                                }
-                            );
+                                        return Card(
+                                            elevation: 2,
+                                            child: ExpansionTile(
+                                                title: Text(anotacao.titulo!),
+                                                subtitle: Text(_back.formatarData(anotacao.dtModificacao!)),
+                                                leading: Icon(Icons.note),
+
+                                                children: [
+                                                    Text(anotacao.texto!, style: TextStyle(fontSize: 18)),
+                                                    mostrarBotoes(context, anotacao)
+                                                ]
+                                            )
+                                        );
+                                    }
+                                );
+                            }
                         }
                     }
                 );
