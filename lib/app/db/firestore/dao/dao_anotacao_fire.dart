@@ -25,6 +25,12 @@ class DaoAnotacaoFire extends DaoAnotacao{
         return lista.toList();
     }
 
+    dropCollection() async{
+        var res = await buscar();
+
+        res.forEach((anot) async => await remover(anot.id));
+    }
+
     @override
     remover(id) async {
         await anotacaoCollection.doc(id).delete();
@@ -32,10 +38,10 @@ class DaoAnotacaoFire extends DaoAnotacao{
 
     @override
     salvar(Anotacao anotacao) async {
-        await anotacaoCollection.doc(anotacao.id).set({
+        await anotacaoCollection.doc(anotacao.id.toString()).set({
             'titulo': anotacao.titulo,
             'texto': anotacao.texto,
-            'dtModificacao': FieldValue.serverTimestamp()
+            'dtModificacao': anotacao.dtModificacao
         });
     }
 }

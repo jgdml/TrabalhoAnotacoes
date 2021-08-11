@@ -35,10 +35,10 @@ abstract class _AnotacoesBack with Store{
     }
     
     
-    String formatarData(Timestamp timestamp){
+    String formatarData(String timestamp){
         var formatador = DateFormat('H:mm - dd/MM/yyyy');
 
-        var dt = DateTime.parse(timestamp.toDate().toString());
+        var dt = DateTime.parse(timestamp);
     
         var brOffset = 3;
         dt = dt.subtract(Duration(hours: brOffset));

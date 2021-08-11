@@ -5,7 +5,7 @@ class Anotacao{
 
     String? titulo;
     String? texto;
-    Timestamp? dtModificacao;
+    String? dtModificacao;
 
     Anotacao({this.id, this.titulo, this.texto, this.dtModificacao});
 }
