@@ -69,16 +69,15 @@ class _CreateState extends State<Create> {
                 title: Text("Criar Anotação"),
                 actions: [
                     IconButton(
-                        onPressed: () {
+                        onPressed: () async{
                             _formState.currentState!.validate();
                             _formState.currentState!.save();
 
                             if (_back.isValido){
-                                _back.salvar();
+                                await _back.salvar();
                                 showSnack(context, "Anotação salva");
                                 Navigator.of(context).pop();
                             }
-
                         }, 
                         icon: Icon(Icons.save)
                     )

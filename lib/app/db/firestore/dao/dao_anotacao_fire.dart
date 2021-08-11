@@ -26,13 +26,13 @@ class DaoAnotacaoFire extends DaoAnotacao{
     }
 
     @override
-    remover(id) {
-        anotacaoCollection.doc(id).delete();
+    remover(id) async {
+        await anotacaoCollection.doc(id).delete();
     }
 
     @override
-    salvar(Anotacao anotacao) {
-        anotacaoCollection.doc(anotacao.id).set({
+    salvar(Anotacao anotacao) async {
+        await anotacaoCollection.doc(anotacao.id).set({
             'titulo': anotacao.titulo,
             'texto': anotacao.texto,
             'dtModificacao': FieldValue.serverTimestamp()

@@ -8,14 +8,14 @@ class AnotacaoService{
     var _dao = GetIt.I.get<DaoAnotacao>();
 
 
-    salvar(Anotacao anotacao){
+    salvar(Anotacao anotacao) async {
         validarTitulo(anotacao.titulo);
         validarTexto(anotacao.texto);
-        _dao.salvar(anotacao);
+        await _dao.salvar(anotacao);
     }
 
-    remover(dynamic id){
-        return _dao.remover(id);
+    remover(dynamic id) async {
+        await _dao.remover(id);
     }
 
 

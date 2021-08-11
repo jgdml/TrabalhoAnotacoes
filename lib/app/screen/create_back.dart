@@ -27,7 +27,7 @@ class CreateBack {
     
 
     salvar() async {
-        _svc.salvar(anotacao!);
+        await _svc.salvar(anotacao!);
     }
 
 

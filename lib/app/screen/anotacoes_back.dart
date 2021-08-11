@@ -60,8 +60,8 @@ abstract class _AnotacoesBack with Store{
 
     }
 
-    excluir(dynamic id){
-        _service.remover(id);
+    excluir(dynamic id) async {
+        await _service.remover(id);
         atualizarLista();
     }
 }
