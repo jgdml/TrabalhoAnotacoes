@@ -12,7 +12,7 @@ class DaoAnotacaoSync implements DaoAnotacao{
     syncCloudDatabase() async {
         var localRes = await _daoLocal.buscar();
 
-        await _daoCloud.dropCollection();  
+        await _daoCloud.dropCollection();
 
         for (var anotacao in localRes){
             await _daoCloud.salvar(anotacao);
