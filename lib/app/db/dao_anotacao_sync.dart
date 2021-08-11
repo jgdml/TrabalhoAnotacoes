@@ -6,34 +6,33 @@ import 'package:text_editor/app/domain/interfaces/dao_anotacao.dart';
 
 class DaoAnotacaoSync implements DaoAnotacao{
 
-    DaoAnotacaoImpl _daoSql = DaoAnotacaoImpl();
-    DaoAnotacaoFire _daoFire = DaoAnotacaoFire();
+    DaoAnotacaoImpl _daoLocal = DaoAnotacaoImpl();
+    DaoAnotacaoFire _daoCloud = DaoAnotacaoFire();
 
     syncCloudDatabase() async {
-        var localRes = await _daoSql.buscar();
+        var localRes = await _daoLocal.buscar();
 
-        await _daoFire.dropCollection();  
+        await _daoCloud.dropCollection();  
 
         for (var anotacao in localRes){
-            await _daoFire.salvar(anotacao);
+            await _daoCloud.salvar(anotacao);
         }
     }
 
     @override
-    Future<List<Anotacao>> buscar() async{        
-        return _daoSql.buscar();
+    Future<List<Anotacao>> buscar() async{
+        syncCloudDatabase();
+        return _daoLocal.buscar();
     }
 
     @override
     remover(id) async {
-        await _daoSql.remover(id);
-        syncCloudDatabase();
+        await _daoLocal.remover(id);
     }
 
     @override
     salvar(Anotacao anotacao) async {
-        await _daoSql.salvar(anotacao);
-        syncCloudDatabase();
+        await _daoLocal.salvar(anotacao);
     }
 
 }
