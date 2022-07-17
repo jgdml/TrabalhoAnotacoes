@@ -5,3 +5,4 @@ Desenvolvido como trabalho para a matéria de Desenvolvimento para Dispositivos 
 
 # Tecnologias
  - Flutter
+ - Firebase
